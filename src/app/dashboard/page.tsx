@@ -1,11 +1,14 @@
-'use client';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import SkillGapResults from '../components/SkillGapResults';
-import CareerRoadmap from '../components/CareerRoadmap';
-import TechNews from '../components/TechNews';
-import Loader from '../components/ui/Loader';
-import { useRouter } from 'next/navigation';
+"use client";
+
+export const dynamic = "force-dynamic"; 
+
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import SkillGapResults from "../components/SkillGapResults";
+import CareerRoadmap from "../components/CareerRoadmap";
+import TechNews from "../components/TechNews";
+import Loader from "../components/ui/Loader";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -15,9 +18,12 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const raw = localStorage.getItem("analysisData");
+    const raw = typeof window !== "undefined"
+      ? localStorage.getItem("analysisData")
+      : null;
 
     if (!raw) {
+      setLoading(false);
       router.push("/");
       return;
     }
@@ -25,6 +31,7 @@ export default function Dashboard() {
     const data = JSON.parse(raw);
 
     if (!data.targetRole) {
+      setLoading(false);
       router.push("/");
       return;
     }
@@ -32,16 +39,16 @@ export default function Dashboard() {
     const fetchData = async () => {
       try {
         const [skillGapRes, roadmapRes, newsRes] = await Promise.all([
-          axios.post('/api/skill-gap', data),
-          axios.post('/api/roadmap', { targetRole: data.targetRole }),
-          axios.get('/api/hackernews')
+          axios.post("/api/skill-gap", data),
+          axios.post("/api/roadmap", { targetRole: data.targetRole }),
+          axios.get("/api/hackernews")
         ]);
 
         setSkillGap(skillGapRes.data);
         setRoadmap(roadmapRes.data);
         setNews(newsRes.data);
-      } catch (error) {
-        console.error(error);
+      } catch (e) {
+        console.error(e);
       } finally {
         setLoading(false);
       }
@@ -50,22 +57,18 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
-  if (loading) return <div className='flex h-screen justify-center items-center bg-white text-black'>
-    <Loader />
-  </div>;
+  if (loading)
+    return (
+      <div className="flex h-screen justify-center items-center">
+        <Loader />
+      </div>
+    );
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 pb-4 pt-2 text-black">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-black pb-2">Career Analysis</h1>
-    
-        <div className="grid md:grid-cols-2 gap-6 mb-6">
-          <SkillGapResults data={skillGap} />
-          <CareerRoadmap data={roadmap} />
-        </div>
-
-        <TechNews stories={news} />
-      </div>
+    <div>
+      <SkillGapResults data={skillGap} />
+      <CareerRoadmap data={roadmap} />
+      <TechNews stories={news} />
     </div>
   );
 }
