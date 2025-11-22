@@ -1,4 +1,3 @@
-
 export interface SkillGapRequest {
     targetRole: string;
     currentSkills: string[];
