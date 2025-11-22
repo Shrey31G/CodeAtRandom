@@ -35,6 +35,7 @@ export default function Dashboard() {
       return;
     }
 
+    // fetching all api together for faster response
     const fetchData = async () => {
       try {
         const [skillGapRes, roadmapRes, newsRes] = await Promise.all([
@@ -56,9 +57,10 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
+  // ui library for loading time
   if (loading)
     return (
-      <div className="flex h-screen justify-center items-center">
+      <div className="flex h-screen bg-white justify-center items-center">
         <Loader />
       </div>
     );
