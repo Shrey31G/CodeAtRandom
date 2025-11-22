@@ -5,18 +5,31 @@ import SkillGapResults from '../components/SkillGapResults';
 import CareerRoadmap from '../components/CareerRoadmap';
 import TechNews from '../components/TechNews';
 import Loader from '../components/ui/Loader';
+import { useRouter } from 'next/navigation';
 
 export default function Dashboard() {
+  const router = useRouter();
   const [skillGap, setSkillGap] = useState(null);
   const [roadmap, setRoadmap] = useState(null);
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const raw = sessionStorage.getItem("analysisData");
+
+    if (!raw) {
+      router.push("/");
+      return;
+    }
+
+    const data = JSON.parse(raw);
+
+    if (!data.targetRole) {
+      router.push("/");
+      return;
+    }
+
     const fetchData = async () => {
-      const data = JSON.parse(sessionStorage.getItem('analysisData') || '{}');
-      
-      // here I'm doing all api calling at once to make UI response faster 
       try {
         const [skillGapRes, roadmapRes, newsRes] = await Promise.all([
           axios.post('/api/skill-gap', data),
@@ -28,7 +41,7 @@ export default function Dashboard() {
         setRoadmap(roadmapRes.data);
         setNews(newsRes.data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error(error);
       } finally {
         setLoading(false);
       }
