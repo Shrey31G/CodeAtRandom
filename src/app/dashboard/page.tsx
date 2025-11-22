@@ -1,6 +1,6 @@
 "use client";
 
-export const dynamic = "force-dynamic"; 
+export const dynamic = "force-dynamic";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -18,12 +18,12 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const raw = typeof window !== "undefined"
-      ? localStorage.getItem("analysisData")
-      : null;
+    const raw =
+      typeof window !== "undefined"
+        ? localStorage.getItem("analysisData")
+        : null;
 
     if (!raw) {
-      setLoading(false);
       router.push("/");
       return;
     }
@@ -31,7 +31,6 @@ export default function Dashboard() {
     const data = JSON.parse(raw);
 
     if (!data.targetRole) {
-      setLoading(false);
       router.push("/");
       return;
     }
@@ -41,7 +40,7 @@ export default function Dashboard() {
         const [skillGapRes, roadmapRes, newsRes] = await Promise.all([
           axios.post("/api/skill-gap", data),
           axios.post("/api/roadmap", { targetRole: data.targetRole }),
-          axios.get("/api/hackernews")
+          axios.get("/api/hackernews"),
         ]);
 
         setSkillGap(skillGapRes.data);
@@ -65,10 +64,17 @@ export default function Dashboard() {
     );
 
   return (
-    <div>
-      <SkillGapResults data={skillGap} />
-      <CareerRoadmap data={roadmap} />
-      <TechNews stories={news} />
+    <div className="min-h-screen bg-gray-50 p-4">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-3xl font-bold mb-6">Your Career Analysis</h1>
+
+        <div className="grid md:grid-cols-2 gap-6 mb-6">
+          <SkillGapResults data={skillGap} />
+          <CareerRoadmap data={roadmap} />
+        </div>
+
+        <TechNews stories={news} />
+      </div>
     </div>
   );
 }
