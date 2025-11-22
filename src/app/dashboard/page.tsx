@@ -15,7 +15,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const raw = sessionStorage.getItem("analysisData");
+    const raw = localStorage.getItem("analysisData");
 
     if (!raw) {
       router.push("/");

@@ -21,7 +21,7 @@ export default function Home() {
         .filter(Boolean);
 
         // storing the input but other methods like a global store could be used or with auth can be stored in DB
-      sessionStorage.setItem('analysisData', JSON.stringify({
+      localStorage.setItem('analysisData', JSON.stringify({
         targetRole,
         currentSkills: skillsArray
       }));
