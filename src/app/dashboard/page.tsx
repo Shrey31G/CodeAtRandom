@@ -16,6 +16,7 @@ export default function Dashboard() {
     const fetchData = async () => {
       const data = JSON.parse(sessionStorage.getItem('analysisData') || '{}');
       
+      // here I'm doing all api calling at once to make UI response faster 
       try {
         const [skillGapRes, roadmapRes, newsRes] = await Promise.all([
           axios.post('/api/skill-gap', data),
@@ -43,7 +44,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gray-50 px-4 pb-4 pt-2 text-black">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-black pb-2">Your Career Analysis</h1>
+        <h1 className="text-3xl font-bold text-black pb-2">Career Analysis</h1>
     
         <div className="grid md:grid-cols-2 gap-6 mb-6">
           <SkillGapResults data={skillGap} />

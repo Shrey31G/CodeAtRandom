@@ -26,6 +26,7 @@ export async function POST(request: Request) {
             !userSkills.includes(req)
         );
 
+        // just saving the anonymous roleskills & roadmap in DB
         try {
             await prisma.analysis.create({
                 data: {

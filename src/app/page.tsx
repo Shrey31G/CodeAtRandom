@@ -14,11 +14,13 @@ export default function Home() {
     setLoading(true);
     
     try {
+      // this here like converts the skills string from user into an array 
       const skillsArray = currentSkills
         .split(',')
         .map(s => s.trim())
         .filter(Boolean);
 
+        // storing the input but other methods like a global store could be used or with auth can be stored in DB
       sessionStorage.setItem('analysisData', JSON.stringify({
         targetRole,
         currentSkills: skillsArray
@@ -61,7 +63,7 @@ export default function Home() {
               type="text"
               value={currentSkills}
               onChange={(e) => setCurrentSkills(e.target.value)}
-              placeholder="e.g., Java, Git, SQL"
+              placeholder="e.g., JavaScript, Excel, SQL"
               className="w-full border rounded p-2"
               required
             />
