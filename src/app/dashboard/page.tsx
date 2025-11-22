@@ -66,7 +66,7 @@ export default function Dashboard() {
     );
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
+    <div className="min-h-screen bg-gray-50 p-4 text-black">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">Your Career Analysis</h1>
 
