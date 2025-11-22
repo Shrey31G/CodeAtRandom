@@ -1,4 +1,3 @@
-// src/app/api/skill-gap/route.ts
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import { ROLE_SKILLS } from '@/lib/constants';
