@@ -30,16 +30,29 @@ Axios
 
 Prisma + PostgreSQL (optional)
 
-##  Project Structure
-src/app/
- ├── api/
- │    ├── skill-gap/
- │    ├── roadmap/
- │    └── hackernews/
- ├── components/
- ├── dashboard/
- └── page.tsx
-prisma/schema.prisma
+##  Project Structure\
+```bash
+src/
+└── app/
+    ├── api/
+    │   ├── skill-gap/
+    │   │   └── route.ts
+    │   ├── roadmap/
+    │   │   └── route.ts
+    │   └── hackernews/
+    │       └── route.ts
+    ├── components/
+    │   ├── SkillGapResults.tsx
+    │   ├── CareerRoadmap.tsx
+    │   └── TechNews.tsx
+    ├── dashboard/
+    │   └── page.tsx
+    └── page.tsx
+
+prisma/
+└── schema.prisma
+
+```
 
 ## Running the Project (Local)
 
